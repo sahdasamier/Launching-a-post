@@ -1,24 +1,26 @@
 .App {
-  background-color: #eb8282;
+  background-color: #f2ecec;
   text-align: center;
   align-items: center;
  max-width: 800px;
  margin: 0px auto;
  padding: 20px;
  display: block;
- color: rgb(195, 201, 183);
+ color: rgb(227, 233, 216);
 }
 
 .App h1{
-  color: #074624;
+  color: #060936;
 }
 h2{
-  color: #03452c;
+  color: #060936;
+  text-transform: capitalize;
+
 }
 label {
   text-align: center;
   font-size: 40px;
-  color: rgb(126, 74, 74);
+  color: rgb(173, 151, 151);
   padding: 5px;
   font-weight: bolder;
 }
@@ -29,20 +31,19 @@ textarea{
     padding: 4px 6px;
     border-width: 6px;
     border-style: inset;
-    border-color:rgb(33, 31, 4);
-    background-color: rgb(85, 12, 21);
+    background-color: rgb(229, 229, 237);
     width: 350px;
+    text-transform: capitalize;
+
 }
 input{
   margin:3px  auto;
   text-align: start;
-  background-color: rgb(85, 12, 21);
-  border-color:rgb(33, 31, 4);
+  background-color: rgb(229, 229, 237);
     cursor: text;
     padding: 4px 6px;
     border-width: 6px;
     border-style: inset;
-    
     width: 350px;
     height: 150px;
 }
@@ -51,12 +52,13 @@ input{
   align-items: center;
 }
  button{
-background-color: rgb(98, 13, 13);
+background-color: rgb(138, 125, 176);
 padding: 6px; 
 margin: 0px 8px 20px 200px ;
-color: rgb(151, 231, 184);
+color: rgb(3, 1, 27);
+cursor: pointer;
 border-radius: 8px;
-  border: 3px solid #070700;
+  border: 3px solid #060936;
 }
 
 /* item */
@@ -65,24 +67,23 @@ border-radius: 8px;
   display: block;
   padding: 10px 16px;
   margin: 20px 0;
-  border-bottom: 6px solid #282323;
-  background-color: rgb(52, 7, 12);
+  border-bottom: 6px solid #060936;
+  color: rgb(3, 1, 27);
+  background-color: rgb(229, 229, 237);
 }
 
 .item button{
   padding: 5px;
   margin: auto;
   text-align: center;
-  background-color: rgb(8, 72, 60);
-  color: rgb(151, 231, 184);
+  background-color: rgb(12, 5, 52);
+  color: rgb(193, 184, 222);
   font-weight: bold;
   margin-left: 10px ;
   border-radius: 8px;
-  border: 3px solid #070700;
+  border: 3px solid #170735;
 }
 .item button:hover{
-  background-color: rgb(1, 18, 18);
+  cursor: pointer;
+  background-color: rgb(1, 1, 26);
 }
-
-
- 
