@@ -10,7 +10,18 @@ const toposts = useSelector((state) =>state.toposts);
   return (
   <div>
       {toposts.map((topost)=>(
-          <TodoItems key={topost.id} id={topost.id} title={topost.title} body ={topost.body} like={topost.like} />
+          <TodoItems
+            key={topost.id}
+            id={topost.id}
+            title={topost.title}
+            body={topost.body}
+            like={topost.like}
+            image={topost.image}
+            liked={topost.liked}
+            likeCount={topost.likeCount}
+            comments={topost.comments}
+            createdAt={topost.createdAt}
+          />
       ))}; 
     </div>
   )
