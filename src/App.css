@@ -1,22 +1,28 @@
 :root{
-  --bg: #f6f7fb;
+  --bg: #f0f2f5;
   --text: #0f172a;
-  --muted: #64748b;
+  --muted: #65676b;
   --card: #ffffff;
-  --surface: rgba(255,255,255,0.55);
-  --border: #e5e7eb;
-  --border-strong: #1f2937;
-  --primary: #2563eb;
+  --surface: rgba(255,255,255,0.95);
+  --border: #e4e6ea;
+  --border-strong: #bcc0c4;
+  --primary: #1877f2;
   --primary-contrast: #ffffff;
-  --neutral-btn: #111827;
-  --neutral-btn-contrast: #e2e8f0;
+  --neutral-btn: #e4e6ea;
+  --neutral-btn-contrast: #0f172a;
   --like: #e91e63;
   --comment: #10b981;
   --share: #2563eb;
-  --avatar-bg: #c7d2fe;
+  --avatar-bg: #e4e6ea;
   --avatar-border: #1e1b4b;
-  --shadow-md: 0 6px 18px rgba(0,0,0,0.08);
-  --shadow-lg: 0 10px 24px rgba(0,0,0,0.25);
+  --shadow-md: 0 1px 2px rgba(0,0,0,0.1);
+  --shadow-lg: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  --facebook-blue: #1877f2;
+  --facebook-green: #42b72a;
+  --facebook-red: #f02849;
+  --facebook-gray: #f0f2f5;
+  --facebook-dark: #242526;
+  --facebook-card: #ffffff;
 }
 .App {
   background-color: var(--bg);
@@ -27,58 +33,68 @@
  padding: 20px;
  display: block;
   color: var(--text);
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 .App.dark{
-  --bg: #0b1020;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --card: #0f172a;
-  --surface: rgba(2,6,23,0.5);
-  --border: #1f2937;
-  --border-strong: #1f2937;
-  --primary: #3b82f6;
+  --bg: #18191a;
+  --text: #e4e6ea;
+  --muted: #b0b3b8;
+  --card: #242526;
+  --surface: rgba(36,37,38,0.95);
+  --border: #3e4042;
+  --border-strong: #4b4c4f;
+  --primary: #1877f2;
   --primary-contrast: #ffffff;
-  --neutral-btn: #374151;
-  --neutral-btn-contrast: #e5e7eb;
+  --neutral-btn: #3a3b3c;
+  --neutral-btn-contrast: #e4e6ea;
   --like: #f43f5e;
   --comment: #059669;
   --share: #3b82f6;
-  --avatar-bg: #1f2937;
+  --avatar-bg: #3a3b3c;
   --avatar-border: #111827;
+  --facebook-dark: #18191a;
+  --facebook-card: #242526;
 }
 
 .App h1{
   color: var(--text);
   font-size: 28px;
   margin-bottom: 16px;
+  font-weight: 700;
 }
 .App.dark h1{ color: var(--text); }
 h2{
-  color: #060936;
+  color: var(--text);
   text-transform: capitalize;
-
+  font-weight: 600;
+  font-size: 17px;
+  margin: 0;
 }
+
 label {
   text-align: center;
-  font-size: 40px;
-  color: rgb(173, 151, 151);
+  font-size: 16px;
+  color: var(--muted);
   padding: 5px;
-  font-weight: bolder;
+  font-weight: 600;
 }
 textarea{
   margin:8px  auto;
   text-align: start;
     cursor: text;
     padding: 10px 12px;
-    border-width: 2px;
+    border-width: 1px;
     border-style: solid;
     border-color: var(--border);
     background-color: var(--card);
     width: 100%;
-    text-transform: capitalize;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    text-transform: none;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.3;
 
 }
 input{
@@ -87,13 +103,15 @@ input{
   background-color: var(--card);
     cursor: text;
     padding: 10px 12px;
-    border-width: 2px;
+    border-width: 1px;
     border-style: solid;
     border-color: var(--border);
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
 }
 .sub label , .sub input,.sub button {
   display: block;
@@ -101,18 +119,22 @@ input{
 }
  button{
 background-color: var(--primary);
-padding: 10px 14px; 
+padding: 8px 12px; 
 margin: 10px auto 20px auto ;
 color: var(--primary-contrast);
 cursor: pointer;
-border-radius: 8px;
+border-radius: 6px;
   border: 0px solid transparent;
-  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  transition: all 150ms ease;
+  font-weight: 600;
+  font-size: 15px;
 }
 
 .toggle-theme{
   background-color: var(--neutral-btn);
   color: var(--neutral-btn-contrast);
+  padding: 6px 10px;
+  font-size: 14px;
 }
 .App.dark .toggle-theme{ background-color: var(--neutral-btn); }
 
@@ -120,26 +142,29 @@ border-radius: 8px;
 .item {
   text-decoration: none;
   display: block;
-  padding: 14px 16px;
-  margin: 20px 0;
-  border-bottom: 6px solid #060936;
+  padding: 16px;
+  margin: 12px 0;
   color: var(--text);
   background-color: var(--card);
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: var(--shadow-md);
+  text-align: left;
 }
-.App.dark .item{ border-bottom-color: var(--border); }
+.App.dark .item{ 
+  border-bottom-color: var(--border); 
+}
 
 .item button{
-  padding: 8px 12px;
+  padding: 6px 10px;
   margin: auto;
   text-align: center;
   background-color: var(--neutral-btn);
   color: var(--neutral-btn-contrast);
-  font-weight: bold;
+  font-weight: 600;
   margin-left: 10px ;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 0px solid transparent;
+  font-size: 14px;
 }
 .item button:hover{
   cursor: pointer;
@@ -154,12 +179,12 @@ border-radius: 8px;
 
 .post-image{
   width: 100%;
-  max-width: 560px;
-  max-height: 320px;
+  max-width: 100%;
+  max-height: 500px;
   object-fit: cover;
-  border-radius: 10px;
-  border: 4px solid var(--border-strong);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 .App.dark .post-image{ border-color: var(--border); }
 
@@ -169,6 +194,9 @@ border-radius: 8px;
   height: auto;
   cursor: pointer;
   margin-top: 8px;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--primary);
 }
 
 .like{
@@ -182,35 +210,49 @@ border-radius: 8px;
 
 .actions{
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
 }
 .action-btn{
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--primary);
-  color: #fff;
+  background: transparent;
+  color: var(--muted);
   border: 1px solid transparent;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 15px;
+  flex: 1;
+  justify-content: center;
 }
-.action-btn.like{ background: var(--primary); }
-.action-btn.share{ background: var(--primary); }
-.action-btn.comment-toggle{ background: var(--primary); }
+.action-btn:hover{
+  background-color: var(--neutral-btn);
+}
+.action-btn.like{ color: #606770; }
+.action-btn.share{ color: #606770; }
+.action-btn.comment-toggle{ color: #606770; }
 .actions .share{
-  background-color: var(--share);
+  background-color: transparent;
+  color: #606770;
 }
 .actions .comment-toggle{
-  background-color: var(--comment);
+  background-color: transparent;
+  color: #606770;
 }
-.App.dark .actions .comment-toggle{ background-color: var(--comment); }
+.App.dark .actions .comment-toggle{ background-color: transparent; }
 
 .comments{
   text-align: left;
-  margin-top: 10px;
+  margin-top: 12px;
   background: var(--surface);
-  padding: 8px 10px;
+  padding: 12px;
   border-radius: 8px;
+  border: 1px solid var(--border);
 }
 
 .comment-form{
@@ -221,6 +263,7 @@ border-radius: 8px;
 .comment-form input{
   flex: 1;
   height: auto;
+  padding: 8px 12px;
 }
 
 .comment-list{
@@ -230,11 +273,12 @@ border-radius: 8px;
 }
 
 .comment-item{
-  padding: 6px 8px;
+  padding: 8px 12px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 6px;
   margin-bottom: 6px;
+  font-size: 15px;
 }
 .App.dark .comment-item{ background: var(--surface); }
 
@@ -247,13 +291,18 @@ border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 8px 16px;
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--bg);
+  background: var(--card);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: calc(50vw - 50% + 16px);
+  padding-right: calc(50vw - 50% + 16px);
+  margin-bottom: 16px;
 }
 .navbar-inner{
   display: flex;
@@ -261,38 +310,40 @@ border-radius: 8px;
   justify-content: space-between;
   gap: 12px;
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 8px 12px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+  border-radius: 24px;
+  padding: 6px 10px;
   width: 100%;
-}
-.App .navbar{
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  padding-left: calc(50vw - 50% + 16px);
-  padding-right: calc(50vw - 50% + 16px);
-  margin-bottom: 16px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 .navbar.scrolled{
   backdrop-filter: saturate(180%) blur(8px);
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  background: color-mix(in srgb, var(--card) 95%, transparent);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 .brand{
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-weight: 800;
-  font-size: 20px;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 24px;
+  padding: 4px 0;
 }
-.brand .logo{ color: var(--primary); }
-.brand .name{ letter-spacing: 0.3px; }
+.brand .logo{ 
+  color: var(--primary); 
+  display: flex;
+  align-items: center;
+}
+.brand .name{ letter-spacing: -0.5px; }
 .brand .brand-primary{ color: var(--text); }
 .brand .brand-accent{ color: var(--primary); }
 .nav-actions{ display: flex; gap: 8px; }
-.create-btn{ background-color: var(--primary); }
+.create-btn{ 
+  background-color: var(--primary); 
+  padding: 6px 12px;
+  font-size: 14px;
+}
 .nav-search{
   flex: 1;
   max-width: 420px;
@@ -300,23 +351,38 @@ border-radius: 8px;
 }
 .nav-search input{
   width: 100%;
-  padding: 10px 12px;
+  padding: 8px 12px;
   border-radius: 9999px;
   border: 1px solid var(--border);
-  background: var(--card);
+  background: var(--neutral-btn);
   color: var(--text);
+  font-size: 15px;
+}
+
+.mobile-search-container {
+  width: 100%;
+  padding: 8px 16px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}
+
+.mobile-search-container .nav-search {
+  margin: 0;
+  max-width: none;
 }
 .subtitle{
   color: var(--muted);
   margin-top: -6px;
   margin-bottom: 16px;
+  font-size: 15px;
 }
 
 .post-header{
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 .post-menu{
   margin-left: auto;
@@ -325,36 +391,48 @@ border-radius: 8px;
 .menu-btn{
   background: transparent;
   color: inherit;
+  border: none;
+  font-size: 18px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.menu-btn:hover{
+  background-color: var(--neutral-btn);
 }
 .menu-dropdown{
   position: absolute;
   right: 0;
   top: 36px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  box-shadow: 0 10px 18px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-width: 200px;
 }
 .menu-dropdown button{
   background: transparent;
-  color: #111827;
+  color: var(--text);
   padding: 10px 12px;
+  text-align: left;
+  border: none;
+  font-size: 15px;
+  font-weight: normal;
 }
 .menu-dropdown button:hover{
-  background: #f3f4f6;
+  background: var(--neutral-btn);
 }
 .App.dark .menu-dropdown{
-  background: #0f172a;
-  border-color: #1f2937;
+  background: var(--card);
+  border-color: var(--border);
 }
 .App.dark .menu-dropdown button{
-  color: #e2e8f0;
+  color: var(--text);
 }
 .App.dark .menu-dropdown button:hover{
-  background: #111827;
+  background: var(--neutral-btn);
 }
 
 .edit-area input, .edit-area textarea{
@@ -371,7 +449,8 @@ border-radius: 8px;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  border: 2px solid var(--avatar-border);
+  border: 1px solid var(--avatar-border);
+  font-size: 18px;
 }
 .App.dark .avatar{ background: var(--avatar-bg); }
 .meta h2{
@@ -379,36 +458,158 @@ border-radius: 8px;
 }
 .time-ago{
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
+  margin-top: 2px;
 }
 .App.dark .time-ago{ color: var(--muted); }
 
 .fab{
   position: fixed;
-  right: 16px;
-  bottom: 16px;
-  width: 52px;
-  height: 52px;
+  right: 20px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
   border-radius: 9999px;
-  font-size: 28px;
+  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-lg);
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 /* Hover/active micro-interactions */
 button:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 button:active{
-  transform: translateY(0px) scale(0.99);
+  transform: scale(0.98);
 }
 
-@media (max-width: 640px){
+@media (max-width: 768px){
   .App{
     padding: 12px;
+  }
+  .navbar{
+    padding: 8px 0;
+  }
+  .navbar-inner{
+    padding: 6px 8px;
+    border-radius: 0;
+  }
+  .nav-search{
+    margin: 0 8px;
+  }
+  .nav-search input{
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+  .brand{
+    font-size: 20px;
+    gap: 6px;
+  }
+  .create-btn, .toggle-theme{
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .item{
+    padding: 12px;
+  }
+  .post-header{
+    margin-bottom: 10px;
+  }
+  .avatar{
+    width: 36px;
+    height: 36px;
+  }
+  .actions{
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  .action-btn{
+    font-size: 14px;
+    padding: 6px;
+  }
+  textarea, input{
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  button{
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+  .fab{
+    width: 52px;
+    height: 52px;
+    right: 16px;
+    bottom: 16px;
+  }
+  .mobile-search-container {
+    padding: 8px 12px;
+  }
+  .mobile-search-container .nav-search input {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px){
+  .App{
+    padding: 8px;
+  }
+  .navbar{
+    padding: 6px 8px;
+  }
+  .navbar-inner{
+    padding: 4px 6px;
+  }
+  .nav-search{
+    margin: 0 4px;
+  }
+  .brand{
+    font-size: 18px;
+  }
+  .create-btn, .toggle-theme{
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .item{
+    padding: 10px;
+  }
+  .post-header{
+    margin-bottom: 8px;
+  }
+  .avatar{
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  .actions{
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+  .action-btn{
+    font-size: 13px;
+    padding: 4px;
+  }
+  textarea, input{
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  button{
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+  .fab{
+    width: 48px;
+    height: 48px;
+    right: 12px;
+    bottom: 12px;
+    font-size: 20px;
   }
 }

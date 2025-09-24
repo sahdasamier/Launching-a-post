@@ -3,12 +3,24 @@ import React, { useEffect, useState } from 'react';
 const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
   const [scrolled, setScrolled] = useState(false);
   const [query, setQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    
     const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();
     window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', checkIfMobile);
+    };
   }, []);
 
   const submitSearch = (e) => {
@@ -19,43 +31,66 @@ const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} role="navigation" aria-label="main navigation">
       <div className="navbar-inner">
-      <div className="brand">
-        <div className="logo" aria-hidden>
-          <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="sw-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#60a5fa"/>
-                <stop offset="100%" stopColor="#6366f1"/>
-              </linearGradient>
-            </defs>
-            <circle cx="24" cy="24" r="20" fill="url(#sw-grad)" opacity="0.25"/>
-            <path d="M10 26c4-2 6-4 10-4s6 2 10 2 6-2 8-3" fill="none" stroke="url(#sw-grad)" strokeWidth="3" strokeLinecap="round"/>
-            <path d="M16 18l6-6" stroke="#0ea5e9" strokeWidth="2.5" strokeLinecap="round"/>
-            <circle cx="22" cy="12" r="2" fill="#0ea5e9"/>
-          </svg>
+        <div className="brand">
+          <div className="logo" aria-hidden>
+            <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sw-grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#60a5fa"/>
+                  <stop offset="100%" stopColor="#6366f1"/>
+                </linearGradient>
+              </defs>
+              <circle cx="24" cy="24" r="20" fill="url(#sw-grad)" opacity="0.25"/>
+              <path d="M10 26c4-2 6-4 10-4s6 2 10 2 6-2 8-3" fill="none" stroke="url(#sw-grad)" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M16 18l6-6" stroke="#0ea5e9" strokeWidth="2.5" strokeLinecap="round"/>
+              <circle cx="22" cy="12" r="2" fill="#0ea5e9"/>
+            </svg>
+          </div>
+          {!isMobile && (
+            <div className="name">
+              <span className="brand-primary">Story</span>
+              <span className="brand-accent">Wave</span>
+            </div>
+          )}
         </div>
-        <div className="name"><span className="brand-primary">Story</span><span className="brand-accent">Wave</span></div>
+        
+        {!isMobile && (
+          <form className="nav-search" onSubmit={submitSearch} role="search">
+            <input
+              type="search"
+              placeholder="Search stories..."
+              value={query}
+              onChange={(e)=>setQuery(e.target.value)}
+              aria-label="Search stories"
+            />
+          </form>
+        )}
+        
+        <div className="nav-actions">
+          <button className="create-btn" onClick={onCreateClick}>
+            {isMobile ? '+' : 'Create'}
+          </button>
+          <button className="toggle-theme" onClick={() => setDark(!dark)}>
+            {isMobile ? (dark ? '☀️' : '🌙') : (dark ? 'Light Mode' : 'Dark Mode')}
+          </button>
+        </div>
       </div>
-      <form className="nav-search" onSubmit={submitSearch} role="search">
-        <input
-          type="search"
-          placeholder="Search stories..."
-          value={query}
-          onChange={(e)=>setQuery(e.target.value)}
-          aria-label="Search stories"
-        />
-      </form>
-      <div className="nav-actions">
-        <button className="create-btn" onClick={onCreateClick}>Create</button>
-        <button className="toggle-theme" onClick={() => setDark(!dark)}>
-          {dark ? 'Light Mode' : 'Dark Mode'}
-        </button>
-      </div>
-      </div>
+      
+      {isMobile && (
+        <div className="mobile-search-container">
+          <form className="nav-search" onSubmit={submitSearch} role="search">
+            <input
+              type="search"
+              placeholder="Search stories..."
+              value={query}
+              onChange={(e)=>setQuery(e.target.value)}
+              aria-label="Search stories"
+            />
+          </form>
+        </div>
+      )}
     </nav>
   );
 };
 
 export default NavBar;
-
-

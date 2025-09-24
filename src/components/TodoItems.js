@@ -2,6 +2,35 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteTopost, toggleLike, addComment, updateTopost } from '../redux/TodoSlice';
 
+// Fallback function for older browsers
+const fallbackCopyTextToClipboard = (text) => {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  
+  // Avoid scrolling to bottom
+  textArea.style.top = '0';
+  textArea.style.left = '0';
+  textArea.style.position = 'fixed';
+  textArea.style.opacity = '0';
+  
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  
+  try {
+    const successful = document.execCommand('copy');
+    if (successful) {
+      alert('Link copied to clipboard!');
+    } else {
+      alert('Failed to copy link');
+    }
+  } catch (err) {
+    alert('Failed to copy link');
+  }
+  
+  document.body.removeChild(textArea);
+};
+
 const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt}) => {
   const dispatch =useDispatch();
   const [commentText, setCommentText] = useState('');
@@ -88,12 +117,17 @@ const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt}
               <span>{showComments ? 'Hide' : 'Comment'}</span>
             </button>
             <button className='action-btn share' onClick={()=>{
-              const shareData = { title: title || 'Post', text: body || '', url: window.location.href };
-              if (navigator.share) {
-                navigator.share(shareData).catch(()=>{});
+              const postUrl = `${window.location.origin}${window.location.pathname}#post-${id}`;
+              if (navigator.clipboard) {
+                navigator.clipboard.writeText(postUrl).then(() => {
+                  alert('Link copied to clipboard!');
+                }).catch(() => {
+                  // Fallback for older browsers
+                  fallbackCopyTextToClipboard(postUrl);
+                });
               } else {
-                navigator.clipboard && navigator.clipboard.writeText(shareData.url);
-                alert('Link copied');
+                // Fallback for older browsers
+                fallbackCopyTextToClipboard(postUrl);
               }
             }}>
               <svg width='18' height='18' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
