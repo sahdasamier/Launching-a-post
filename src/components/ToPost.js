@@ -21,9 +21,6 @@ const ToPost =() => {
  );
  setValue('');
  setBody('');
- if (imagePreviewUrl) {
-   URL.revokeObjectURL(imagePreviewUrl);
- }
  setImageFile(null);
  setImagePreviewUrl(null);
 }
@@ -55,8 +52,12 @@ const ToPost =() => {
           const file = e.target.files && e.target.files[0];
           if (!file) { return; }
           setImageFile(file);
-          const preview = URL.createObjectURL(file);
-          setImagePreviewUrl(preview);
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            const dataUrl = ev.target && ev.target.result;
+            setImagePreviewUrl(dataUrl);
+          };
+          reader.readAsDataURL(file);
         }}
         />
         {imagePreviewUrl && (

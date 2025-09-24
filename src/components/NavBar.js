@@ -18,6 +18,7 @@ const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
 
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} role="navigation" aria-label="main navigation">
+      <div className="navbar-inner">
       <div className="brand">
         <div className="logo" aria-hidden>
           <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -49,6 +50,7 @@ const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
         <button className="toggle-theme" onClick={() => setDark(!dark)}>
           {dark ? 'Light Mode' : 'Dark Mode'}
         </button>
+      </div>
       </div>
     </nav>
   );

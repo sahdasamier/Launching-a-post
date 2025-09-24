@@ -75,13 +75,19 @@ const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt}
             <p>{body}</p>
           )}
           <div className='actions'>
-            <button className={`like ${liked ? 'liked' : ''}`} onClick={likef}>
-              {liked ? '♥ Liked' : '♡ Like'} {likeCount || 0}
+            <button className={`action-btn like ${liked ? 'liked' : ''}`} onClick={likef}>
+              <svg width='18' height='18' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+                <path d='M12 21s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 5.65-7 10-7 10z'/>
+              </svg>
+              <span>{liked ? 'Liked' : 'Like'} {likeCount || 0}</span>
             </button>
-            <button className='comment-toggle' onClick={()=> setShowComments(!showComments)}>
-              {showComments ? 'Hide comments' : 'Comment'}
+            <button className='action-btn comment-toggle' onClick={()=> setShowComments(!showComments)}>
+              <svg width='18' height='18' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+                <path d='M21 6H3v9a2 2 0 0 0 2 2h9l4 3v-3h3a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z'/>
+              </svg>
+              <span>{showComments ? 'Hide' : 'Comment'}</span>
             </button>
-            <button className='share' onClick={()=>{
+            <button className='action-btn share' onClick={()=>{
               const shareData = { title: title || 'Post', text: body || '', url: window.location.href };
               if (navigator.share) {
                 navigator.share(shareData).catch(()=>{});
@@ -89,7 +95,12 @@ const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt}
                 navigator.clipboard && navigator.clipboard.writeText(shareData.url);
                 alert('Link copied');
               }
-            }}>Share</button>
+            }}>
+              <svg width='18' height='18' viewBox='0 0 24 24' fill='currentColor' aria-hidden>
+                <path d='M18 8l-6-5v3H6v4h6v3l6-5zM6 14h2v6H6v-6zm4 0h2v6h-2v-6zm4 0h2v6h-2v-6z'/>
+              </svg>
+              <span>Share</span>
+            </button>
           </div>
 
           {showComments && (

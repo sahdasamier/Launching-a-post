@@ -186,6 +186,17 @@ border-radius: 8px;
   gap: 8px;
   margin-top: 8px;
 }
+.action-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary);
+  color: #fff;
+  border: 1px solid transparent;
+}
+.action-btn.like{ background: var(--primary); }
+.action-btn.share{ background: var(--primary); }
+.action-btn.comment-toggle{ background: var(--primary); }
 .actions .share{
   background-color: var(--share);
 }
@@ -244,6 +255,25 @@ border-radius: 8px;
   border-bottom: 1px solid var(--border);
   box-shadow: 0 2px 10px rgba(0,0,0,0.04);
 }
+.navbar-inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 8px 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+  width: 100%;
+}
+.App .navbar{
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: calc(50vw - 50% + 16px);
+  padding-right: calc(50vw - 50% + 16px);
+  margin-bottom: 16px;
+}
 .navbar.scrolled{
   backdrop-filter: saturate(180%) blur(8px);
   background: color-mix(in srgb, var(--bg) 85%, transparent);
@@ -279,7 +309,7 @@ border-radius: 8px;
 .subtitle{
   color: var(--muted);
   margin-top: -6px;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .post-header{
