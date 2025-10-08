@@ -7,6 +7,7 @@ import Landing from './components/Landing';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
+import Discover from './components/Discover';
 import NavBar from './components/NavBar';
 
 function App() {
@@ -110,6 +111,11 @@ function App() {
         <Route path="/create" element={
           <ProtectedRoute>
             <CreatePost dark={dark} setDark={setDark} />
+          </ProtectedRoute>
+        } />
+        <Route path="/discover" element={
+          <ProtectedRoute>
+            <Discover dark={dark} setDark={setDark} />
           </ProtectedRoute>
         } />
         <Route path="/profile" element={

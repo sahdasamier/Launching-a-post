@@ -6,17 +6,20 @@ const Profile = () => {
   const [user, setUser] = useState({
     name: 'John Doe',
     email: 'user@example.com',
-    avatar: null
+    avatar: null,
+    bio: 'Share your story with the world'
   });
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState('');
   const [editEmail, setEditEmail] = useState('');
+  const [editBio, setEditBio] = useState('');
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
   const navigate = useNavigate();
   
   // Get all posts from Redux store
   const allPosts = useSelector(state => state.toposts);
+  const { users } = useSelector(state => state.users);
 
   useEffect(() => {
     // Load user data from localStorage
@@ -26,6 +29,7 @@ const Profile = () => {
       setUser(userData);
       setEditName(userData.name || '');
       setEditEmail(userData.email || '');
+      setEditBio(userData.bio || 'Share your story with the world');
     }
     
     // Filter posts by current user (for demo, we'll show all posts)
@@ -44,6 +48,7 @@ const Profile = () => {
     setIsEditing(true);
     setEditName(user.name);
     setEditEmail(user.email);
+    setEditBio(user.bio || 'Share your story with the world');
   };
   
   const handleSaveProfile = () => {
@@ -51,6 +56,7 @@ const Profile = () => {
       ...user,
       name: editName,
       email: editEmail,
+      bio: editBio,
       avatar: avatarPreview || user.avatar
     };
     
@@ -63,6 +69,7 @@ const Profile = () => {
     setIsEditing(false);
     setEditName(user.name);
     setEditEmail(user.email);
+    setEditBio(user.bio || 'Share your story with the world');
     setAvatarPreview(null);
   };
   
@@ -76,6 +83,13 @@ const Profile = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  // Get user's social stats
+  const getCurrentUserData = () => {
+    return users.find(u => u.email === user.email) || { followers: [], following: [] };
+  };
+
+  const userSocialData = getCurrentUserData();
 
   return (
     <div className="profile-container">
@@ -107,6 +121,13 @@ const Profile = () => {
                 placeholder="Email"
                 className="profile-input"
               />
+              <textarea
+                value={editBio}
+                onChange={(e) => setEditBio(e.target.value)}
+                placeholder="Tell us about yourself..."
+                className="profile-input profile-bio"
+                rows="3"
+              />
               <div className="avatar-upload">
                 <label htmlFor="avatar-upload" className="profile-btn">
                   Change Photo
@@ -123,7 +144,24 @@ const Profile = () => {
           ) : (
             <>
               <h2>{user.name}</h2>
-              <p>{user.email}</p>
+              <p className="user-email">{user.email}</p>
+              <p className="user-bio">{user.bio || 'Share your story with the world'}</p>
+              
+              {/* Social Stats */}
+              <div className="social-stats">
+                <div className="stat">
+                  <span className="stat-number">{userPosts.length}</span>
+                  <span className="stat-label">Stories</span>
+                </div>
+                <div className="stat">
+                  <span className="stat-number">{userSocialData.followers?.length || 0}</span>
+                  <span className="stat-label">Followers</span>
+                </div>
+                <div className="stat">
+                  <span className="stat-number">{userSocialData.following?.length || 0}</span>
+                  <span className="stat-label">Following</span>
+                </div>
+              </div>
             </>
           )}
         </div>

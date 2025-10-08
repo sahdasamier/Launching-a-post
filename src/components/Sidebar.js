@@ -32,6 +32,12 @@ const Sidebar = ({ dark, setDark }) => {
       active: location.pathname === '/'
     },
     {
+      icon: '🔍',
+      label: 'Discover',
+      path: '/discover',
+      active: location.pathname === '/discover'
+    },
+    {
       icon: '✏️',
       label: 'Create Story',
       path: '/create',

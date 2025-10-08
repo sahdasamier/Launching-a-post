@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteTopost, toggleLike, addComment, updateTopost } from '../redux/TodoSlice';
+import { followUser, unfollowUser } from '../redux/UserSlice';
 
 // Fallback function for older browsers
 const fallbackCopyTextToClipboard = (text) => {
@@ -34,6 +35,11 @@ const fallbackCopyTextToClipboard = (text) => {
 const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt, author}) => {
   const dispatch =useDispatch();
   const [commentText, setCommentText] = useState('');
+  const { users } = useSelector(state => state.users);
+  const [currentUser, setCurrentUser] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
  
    function likef (){
      dispatch(toggleLike({ id }));
@@ -65,6 +71,38 @@ const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt,
     setIsEditing(false);
     setMenuOpen(false);
   };
+
+  // Social features
+  const getAuthorData = () => {
+    return users.find(u => u.name === author) || null;
+  };
+
+  const isFollowingAuthor = () => {
+    if (!currentUser || !author || author === currentUser.name) return false;
+    const currentUserData = users.find(u => u.email === currentUser.email);
+    const authorData = getAuthorData();
+    return currentUserData?.following?.includes(authorData?.id) || false;
+  };
+
+  const handleFollowAuthor = () => {
+    if (!currentUser || !author || author === currentUser.name) return;
+    const currentUserData = users.find(u => u.email === currentUser.email);
+    const authorData = getAuthorData();
+    
+    if (!currentUserData || !authorData) return;
+
+    if (isFollowingAuthor()) {
+      dispatch(unfollowUser({ 
+        followerId: currentUserData.id, 
+        followeeId: authorData.id 
+      }));
+    } else {
+      dispatch(followUser({ 
+        followerId: currentUserData.id, 
+        followeeId: authorData.id 
+      }));
+    }
+  };
   return (
    
         <div className='item' > 
@@ -73,7 +111,17 @@ const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt,
             <div className='meta'>
               <h2>{title}</h2>
               {author && (
-                <span className='created-by'>created by {author}</span>
+                <div className="author-info">
+                  <span className='created-by'>created by {author}</span>
+                  {currentUser && author !== currentUser.name && (
+                    <button 
+                      className={`follow-author-btn ${isFollowingAuthor() ? 'following' : ''}`}
+                      onClick={handleFollowAuthor}
+                    >
+                      {isFollowingAuthor() ? 'Following' : 'Follow'}
+                    </button>
+                  )}
+                </div>
               )}
               {createdAt && (
                 <span className='time-ago'>{new Date(createdAt).toLocaleString()}</span>
