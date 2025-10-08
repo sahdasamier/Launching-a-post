@@ -31,7 +31,7 @@ const fallbackCopyTextToClipboard = (text) => {
   document.body.removeChild(textArea);
 };
 
-const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt}) => {
+const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt, author}) => {
   const dispatch =useDispatch();
   const [commentText, setCommentText] = useState('');
  
@@ -72,6 +72,9 @@ const TodoItems = ({id,title,body, image, liked, likeCount, comments, createdAt}
             <div className='avatar'>{title?.[0]?.toUpperCase() || 'P'}</div>
             <div className='meta'>
               <h2>{title}</h2>
+              {author && (
+                <span className='created-by'>created by {author}</span>
+              )}
               {createdAt && (
                 <span className='time-ago'>{new Date(createdAt).toLocaleString()}</span>
               )}

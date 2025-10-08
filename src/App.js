@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Dashboard from './components/Dashboard';
+import CreatePost from './components/CreatePost';
 import Landing from './components/Landing';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -13,24 +14,37 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
+  // Function to check and update auth status
+  const updateAuthStatus = () => {
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const user = localStorage.getItem('user');
+    const newAuthState = loggedIn && user;
+    setIsLoggedIn(newAuthState);
+    return newAuthState;
+  };
+  
   useEffect(() => {
-    // Check if user is logged in
-    const checkAuthStatus = () => {
-      const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-      const user = localStorage.getItem('user');
-      setIsLoggedIn(loggedIn && user);
-      setIsLoading(false);
-    };
-    
-    checkAuthStatus();
+    // Initial auth check
+    updateAuthStatus();
+    setIsLoading(false);
     
     // Listen for storage changes (e.g., login/logout in another tab)
     const handleStorageChange = () => {
-      checkAuthStatus();
+      updateAuthStatus();
+    };
+    
+    // Custom event listener for same-tab auth changes
+    const handleAuthChange = () => {
+      updateAuthStatus();
     };
     
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener('authChange', handleAuthChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('authChange', handleAuthChange);
+    };
   }, []);
   
   // Protected route component
@@ -93,6 +107,11 @@ function App() {
             <Dashboard dark={dark} setDark={setDark} />
           </ProtectedRoute>
         } />
+        <Route path="/create" element={
+          <ProtectedRoute>
+            <CreatePost dark={dark} setDark={setDark} />
+          </ProtectedRoute>
+        } />
         <Route path="/profile" element={
           <ProtectedRoute>
             <>
@@ -102,9 +121,9 @@ function App() {
           </ProtectedRoute>
         } />
         
-        {/* Catch all route */}
+        {/* Catch all routes */}
         <Route path="*" element={
-          isLoggedIn ? <Navigate to="/" replace /> : <Navigate to="/welcome" replace />
+          <Navigate to={isLoggedIn ? "/" : "/welcome"} replace />
         } />
       </Routes>
     </div>

@@ -47,8 +47,11 @@ const Signup = () => {
         localStorage.setItem('user', JSON.stringify(userData));
         localStorage.setItem('isLoggedIn', 'true');
         
-        // Successful signup and auto-login - redirect to dashboard
-        navigate('/');
+        // Trigger auth change event immediately
+        window.dispatchEvent(new Event('authChange'));
+        
+        // Use replace instead of push to prevent back button issues
+        navigate('/', { replace: true });
       } catch (error) {
         setError('Failed to create account. Please try again.');
       }

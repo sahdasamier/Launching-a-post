@@ -14,6 +14,7 @@ import {createSlice } from '@reduxjs/toolkit';
           { id: 1, text: "Beautiful story!" },
         ],
         createdAt: Date.now() - 1000 * 60 * 60 * 6,
+        author: "Emma Wilson",
 
     },
     {
@@ -27,6 +28,7 @@ import {createSlice } from '@reduxjs/toolkit';
       likeCount: 1,
       comments: [],
       createdAt: Date.now() - 1000 * 60 * 60 * 3,
+      author: "James Carter",
     },
     {
         id: 3,
@@ -38,6 +40,7 @@ import {createSlice } from '@reduxjs/toolkit';
         likeCount: 0,
         comments: [],
         createdAt: Date.now() - 1000 * 60 * 20,
+        author: "Maria Rodriguez",
 
     },
    ],
@@ -48,6 +51,7 @@ import {createSlice } from '@reduxjs/toolkit';
              title:action.payload.title,
              body:action.payload.body,
              image: action.payload.image || null,
+             author: action.payload.author || 'Anonymous',
              liked: false,
              likeCount: 0,
              comments: [],

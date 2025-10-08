@@ -31,8 +31,12 @@ const Login = () => {
           joinedDate: new Date().toISOString()
         }));
         localStorage.setItem('isLoggedIn', 'true');
-        // Successful login - redirect to dashboard
-        navigate('/');
+        
+        // Trigger auth change event immediately
+        window.dispatchEvent(new Event('authChange'));
+        
+        // Use replace instead of push to prevent back button issues
+        navigate('/', { replace: true });
       } else {
         setError('Invalid email or password');
       }

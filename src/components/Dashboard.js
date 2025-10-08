@@ -1,56 +1,73 @@
-import React from 'react';
-import NavBar from './NavBar';
-import ToPost from './ToPost';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Layout from './Layout';
 import TodoForm from './Todoform';
 
 const Dashboard = ({ dark, setDark }) => {
-  const scrollToForm = () => {
-    const el = document.getElementById('create-form');
-    if (el) { 
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
-    }
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+  
+  const handleCreateClick = () => {
+    navigate('/create');
   };
   
-  const onSearch = (q) => {
-    // Placeholder hook for future search integration
-    console.log('Search query:', q);
+  const onSearch = (query) => {
+    setSearchQuery(query);
+    console.log('Searching for:', query);
   };
 
   return (
-    <>
-      <NavBar 
-        dark={dark} 
-        setDark={setDark} 
-        onCreateClick={scrollToForm} 
-        onSearch={onSearch} 
-      />
-      
-      <div className="dashboard-content">
-        <div className="welcome-section">
-          <h1 style={{display:'none'}}>Share your favorite story</h1>
-          <p className="subtitle">
-            Inspire others with moments that matter — add a title, your story, and an optional photo.
+    <Layout 
+      dark={dark} 
+      setDark={setDark} 
+      onCreateClick={handleCreateClick} 
+      onSearch={onSearch}
+    >
+      <div className="dashboard-page">
+        <div className="dashboard-header">
+          <h1 className="page-title">Discover Stories</h1>
+          <p className="page-subtitle">
+            Explore amazing stories from our community of storytellers
           </p>
         </div>
         
-        {/* Post Creation Form */}
-        <ToPost />
+        {/* Story Prompt */}
+        <div className="story-prompt" onClick={handleCreateClick}>
+          <div className="prompt-content">
+            <div className="prompt-icon">✏️</div>
+            <div className="prompt-text">
+              <h3>I want to add my story</h3>
+              <p>Share your thoughts, experiences, and stories with the community</p>
+            </div>
+            <div className="prompt-arrow">→</div>
+          </div>
+        </div>
         
         {/* Posts Feed */}
-        <div className="posts-feed">
-          <TodoForm />
+        <div className="posts-section">
+          <div className="section-header">
+            <h2>Latest Stories</h2>
+            {searchQuery && (
+              <span className="search-indicator">
+                Showing results for "{searchQuery}"
+              </span>
+            )}
+          </div>
+          <div className="posts-feed">
+            <TodoForm searchQuery={searchQuery} />
+          </div>
         </div>
         
         {/* Floating Action Button */}
         <button 
           className="fab" 
-          onClick={scrollToForm} 
+          onClick={handleCreateClick} 
           aria-label="Create Post"
         >
           ＋
         </button>
       </div>
-    </>
+    </Layout>
   );
 };
 

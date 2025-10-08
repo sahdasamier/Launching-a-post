@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
+const NavBar = ({ dark, setDark, onCreateClick, onSearch, compact = false }) => {
   const [scrolled, setScrolled] = useState(false);
   const [query, setQuery] = useState('');
   const [isMobile, setIsMobile] = useState(false);
@@ -58,34 +58,40 @@ const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
       avatar: null,
       isLoggedIn: false
     });
-    navigate('/login');
+    
+    // Trigger auth change event
+    window.dispatchEvent(new Event('authChange'));
+    
+    navigate('/welcome', { replace: true });
   };
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} role="navigation" aria-label="main navigation">
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${compact ? 'compact' : ''}`} role="navigation" aria-label="main navigation">
       <div className="navbar-inner">
-        <div className="brand">
-          <div className="logo" aria-hidden>
-            <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="sw-grad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#60a5fa"/>
-                  <stop offset="100%" stopColor="#6366f1"/>
-                </linearGradient>
-              </defs>
-              <circle cx="24" cy="24" r="20" fill="url(#sw-grad)" opacity="0.25"/>
-              <path d="M10 26c4-2 6-4 10-4s6 2 10 2 6-2 8-3" fill="none" stroke="url(#sw-grad)" strokeWidth="3" strokeLinecap="round"/>
-              <path d="M16 18l6-6" stroke="#0ea5e9" strokeWidth="2.5" strokeLinecap="round"/>
-              <circle cx="22" cy="12" r="2" fill="#0ea5e9"/>
-            </svg>
-          </div>
-          {!isMobile && (
-            <div className="name">
-              <span className="brand-primary">Story</span>
-              <span className="brand-accent">Wave</span>
+        {!compact && (
+          <div className="brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }} title="Go to Home">
+            <div className="logo" aria-hidden>
+              <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="sw-grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#60a5fa"/>
+                    <stop offset="100%" stopColor="#6366f1"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="24" cy="24" r="20" fill="url(#sw-grad)" opacity="0.25"/>
+                <path d="M10 26c4-2 6-4 10-4s6 2 10 2 6-2 8-3" fill="none" stroke="url(#sw-grad)" strokeWidth="3" strokeLinecap="round"/>
+                <path d="M16 18l6-6" stroke="#0ea5e9" strokeWidth="2.5" strokeLinecap="round"/>
+                <circle cx="22" cy="12" r="2" fill="#0ea5e9"/>
+              </svg>
             </div>
-          )}
-        </div>
+            {!isMobile && (
+              <div className="name">
+                <span className="brand-primary">Story</span>
+                <span className="brand-accent">Wave</span>
+              </div>
+            )}
+          </div>
+        )}
         
         {!isMobile && (
           <form className="nav-search" onSubmit={submitSearch} role="search">
@@ -100,7 +106,7 @@ const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
         )}
         
         <div className="nav-actions">
-          <button className="create-btn" onClick={onCreateClick}>
+          <button className="create-btn" onClick={() => onCreateClick ? onCreateClick() : navigate('/create')} title="Create a new post">
             {isMobile ? '+' : 'Create'}
           </button>
           {user.isLoggedIn ? (
