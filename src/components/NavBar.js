@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
   const [scrolled, setScrolled] = useState(false);
   const [query, setQuery] = useState('');
   const [isMobile, setIsMobile] = useState(false);
+  const [user, setUser] = useState({
+    name: 'John Doe',
+    avatar: null,
+    isLoggedIn: false
+  });
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -17,6 +25,19 @@ const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
     onScroll();
     window.addEventListener('scroll', onScroll);
     
+    // Load user data from localStorage
+    const storedUser = localStorage.getItem('user');
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    
+    if (storedUser && isLoggedIn) {
+      const userData = JSON.parse(storedUser);
+      setUser({
+        name: userData.name || 'User',
+        avatar: userData.avatar || null,
+        isLoggedIn: true
+      });
+    }
+    
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', checkIfMobile);
@@ -26,6 +47,18 @@ const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
   const submitSearch = (e) => {
     e.preventDefault();
     if (onSearch) onSearch(query);
+  };
+
+  const handleLogout = () => {
+    // Clear user session
+    localStorage.removeItem('user');
+    localStorage.removeItem('isLoggedIn');
+    setUser({
+      name: 'John Doe',
+      avatar: null,
+      isLoggedIn: false
+    });
+    navigate('/login');
   };
 
   return (
@@ -70,9 +103,30 @@ const NavBar = ({ dark, setDark, onCreateClick, onSearch }) => {
           <button className="create-btn" onClick={onCreateClick}>
             {isMobile ? '+' : 'Create'}
           </button>
-          <button className="toggle-theme" onClick={() => setDark(!dark)}>
-            {isMobile ? (dark ? '☀️' : '🌙') : (dark ? 'Light Mode' : 'Dark Mode')}
-          </button>
+          {user.isLoggedIn ? (
+            <div className="user-profile" onClick={() => setShowProfileMenu(!showProfileMenu)}>
+              <div className="avatar">
+                {user.avatar ? (
+                  <img src={user.avatar} alt={user.name} />
+                ) : (
+                  <span>{user.name.charAt(0)}</span>
+                )}
+              </div>
+              {showProfileMenu && (
+                <div className="profile-dropdown">
+                  <button onClick={() => navigate('/profile')}>Profile</button>
+                  <button onClick={() => setDark(!dark)}>
+                    {dark ? 'Light Mode' : 'Dark Mode'}
+                  </button>
+                  <button onClick={handleLogout}>Logout</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button className="toggle-theme" onClick={() => navigate('/login')}>
+              Login
+            </button>
+          )}
         </div>
       </div>
       
